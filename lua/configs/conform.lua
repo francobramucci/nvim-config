@@ -11,12 +11,18 @@ local options = {
         ["clang_format"] = {
             prepend_args = {
                 "-style={ \
+                BasedOnStyle: LLVM, \
+                AllowShortFunctionsOnASingleLine: None, \
+                BreakBeforeBraces: Attach, \
+                BreakFunctionDefinitionParameters: false, \
+                AllowAllParametersOfDeclarationOnNextLine: false, \
                 IndentWidth: 4, \
                 TabWidth: 4, \
                 UseTab: Never, \
                 AccessModifierOffset: 0, \
                 IndentAccessModifiers: true, \
-                ColumnLimit: 150, \
+                ColumnLimit: 120, \
+                ReflowComments: true, \
                 PackConstructorInitializers: Never}",
             },
         },
