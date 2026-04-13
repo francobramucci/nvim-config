@@ -1,34 +1,25 @@
+-- Cargar los defaults de NvChad
+-- (Nota: si NvChad aún no ha actualizado su código interno a la v0.11,
+-- esta línea podría seguir lanzando un warning temporalmente hasta que ellos lo parcheen).
 require("nvchad.configs.lspconfig").defaults()
 
 local on_attach = require("nvchad.configs.lspconfig").on_attach
 local on_init = require("nvchad.configs.lspconfig").on_init
 local capabilities = require("nvchad.configs.lspconfig").capabilities
 
--- local servers = { "clangd", "basedpyright", "clang-format" }
--- vim.lsp.enable(servers)
-local lspconfig = require("lspconfig")
-
-lspconfig.servers = {
-    "lua_ls",
-    "clangd",
-    "basedpyright",
-}
-
-lspconfig.lua_ls.setup({
+-- 1. LUA_LS
+vim.lsp.config("lua_ls", {
     on_attach = on_attach,
     on_init = on_init,
     capabilities = capabilities,
-
     settings = {
         Lua = {
             diagnostics = {
-                enable = false, -- Disable all diagnostics from lua_ls
-                -- globals = { "vim" },
+                enable = false,
             },
             workspace = {
                 library = {
                     vim.fn.expand("$VIMRUNTIME/lua"),
-                    vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
                     vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types",
                     vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy",
                 },
@@ -38,8 +29,10 @@ lspconfig.lua_ls.setup({
         },
     },
 })
+vim.lsp.enable("lua_ls")
 
-lspconfig.clangd.setup({
+-- 2. CLANGD
+vim.lsp.config("clangd", {
     on_attach = function(client, bufnr)
         client.server_capabilities.documentFormattingProvider = false
         client.server_capabilities.documentRangeFormattingProvider = false
@@ -48,12 +41,13 @@ lspconfig.clangd.setup({
     on_init = on_init,
     capabilities = capabilities,
 })
+vim.lsp.enable("clangd")
 
-lspconfig.basedpyright.setup({
+-- 3. BASEDPYRIGHT
+vim.lsp.config("basedpyright", {
     on_attach = on_attach,
     on_init = on_init,
     capabilities = capabilities,
-
     settings = {
         basedpyright = {
             analysis = {
@@ -62,3 +56,4 @@ lspconfig.basedpyright.setup({
         },
     },
 })
+vim.lsp.enable("basedpyright")
