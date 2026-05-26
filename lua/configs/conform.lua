@@ -23,6 +23,7 @@ local options = {
                 IndentAccessModifiers: true, \
                 ColumnLimit: 120, \
                 ReflowComments: true, \
+                IndentPPDirectives: Leave, \
                 PackConstructorInitializers: Never}",
             },
         },
